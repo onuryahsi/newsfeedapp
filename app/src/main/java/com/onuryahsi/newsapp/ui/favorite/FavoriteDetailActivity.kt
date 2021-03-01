@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.onuryahsi.newsapp.R
 import com.onuryahsi.newsapp.databinding.ActivityFavoriteDetailBinding
 import com.onuryahsi.newsapp.schema.Article
@@ -22,6 +23,8 @@ class FavoriteDetailActivity : AppCompatActivity() {
     private lateinit var viewModel: FavoritesViewModel
     private lateinit var viewModelNews: NewsViewModel
     //private lateinit var viewModelFactory: ViewModelFactory
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +41,17 @@ class FavoriteDetailActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(FavoritesViewModel::class.java)
         viewModelNews = ViewModelProvider(this).get(NewsViewModel::class.java)
 
+        // Obtain the FirebaseAnalytics instance.
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
         fillTheView()
         getArticleIfExists()
+    }
+
+    private fun sendEvent(url: String) {
+        val bundle = Bundle()
+        bundle.putString("share_url", url)
+        firebaseAnalytics.logEvent("dm_share", bundle)
     }
 
     @SuppressLint("SetTextI18n")
@@ -140,9 +152,14 @@ class FavoriteDetailActivity : AppCompatActivity() {
             putExtra(Intent.EXTRA_TEXT, "" + url)
             type = "text/plain"
         }
-
         val shareIntent = Intent.createChooser(sendIntent, null)
         startActivity(shareIntent)
+
+        val item = intent
+        val url = item.getStringExtra("article.url")
+        if (url != null) {
+            sendEvent(url)
+        }
     }
 
     private fun saveArticle() {
