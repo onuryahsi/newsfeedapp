@@ -1,6 +1,10 @@
 package com.onuryahsi.newsapp
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -20,5 +24,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, HomeActivity::class.java))
             finish()
         }, 500)
+    }
+
+    private fun firebaseCrashTest() {
+        throw RuntimeException("Test Crash") // Force a crash
     }
 }
