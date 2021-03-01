@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@color/cardview_light_background"
+        android:elevation="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:background="@color/cardview_light_background"
+                android:orientation="vertical"
+                android:paddingRight="4dp">
+
+                <TextView
+                    android:id="@+id/news_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem Ipsum Title"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:paddingEnd="4dp"/>
+
+                <TextView
+                    android:id="@+id/news_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/news_title"
+                    android:layout_marginTop="8dp"
+                    android:lines="4"
+                    android:maxLines="4"
+                    android:ellipsize="end"
+                    android:paddingEnd="4dp"
+                    android:text="Lorem Ipsum Content"
+                    android:textColor="#000" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:background="@color/cardview_light_background"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:scaleType="fitCenter"
+                    android:id="@+id/news_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="News Image"
+                    android:src="@mipmap/ic_launcher_round" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>
