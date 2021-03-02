@@ -13,7 +13,7 @@
         android:id="@+id/favorite_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/news_source"
+        android:layout_above="@+id/favorite_source"
         tools:viewBindingIgnore="true">
 
         <LinearLayout

@@ -9,7 +9,7 @@ interface NewsRestAPI {
 
     companion object {
         const val BASE_URL = "https://newsapi.org/v2/"
-        const val api_key = "c95e70f66cb447cea30b41a5f182b784"
+        const val api_key = "b5c009bdd1e142739b7de32185129914"
     }
 
     @GET("everything")
