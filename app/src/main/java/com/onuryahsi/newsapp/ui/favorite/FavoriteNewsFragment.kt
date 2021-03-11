@@ -57,9 +57,11 @@ class FavoriteNewsFragment : Fragment(), FavoritesAdapter.OnItemClickListener {
             unfilteredList = it as MutableList<Article>
             adapter = FavoritesAdapter(unfilteredList, this)
             binding.recyclerviewFavoriteNews.adapter = adapter
+            if (unfilteredList.isEmpty()) generateIdleData(this.viewModel)
+            adapter.notifyDataSetChanged()
         })
 
-        fun updateResult(_filteredList: MutableList<Article>) {
+        fun updateListAfterSearch(_filteredList: MutableList<Article>) {
             adapter = FavoritesAdapter(_filteredList, this)
             binding.recyclerviewFavoriteNews.adapter = adapter
             adapter.notifyDataSetChanged()
@@ -75,7 +77,7 @@ class FavoriteNewsFragment : Fragment(), FavoritesAdapter.OnItemClickListener {
                         filteredList.add(item)
                     }
                 }
-                updateResult(filteredList)
+                updateListAfterSearch(filteredList)
                 return false
             }
 
@@ -88,7 +90,7 @@ class FavoriteNewsFragment : Fragment(), FavoritesAdapter.OnItemClickListener {
                         filteredList.add(item)
                     }
                 }
-                updateResult(filteredList)
+                updateListAfterSearch(filteredList)
                 return false
             }
 
@@ -123,5 +125,21 @@ class FavoriteNewsFragment : Fragment(), FavoritesAdapter.OnItemClickListener {
         intent.putExtra("article.urlToImage", "" + article.urlToImage.toString())
         intent.putExtra("article.url", "" + article.url.toString())
         startActivity(intent)
+    }
+
+    private fun generateIdleData(viewModel: FavoritesViewModel) {
+        for (i in 1..10) {
+            val data = Article(
+                id = i,
+                title = "The Chipmunk Adventure [$i]",
+                author = "[Author $i] The Chipmunk Adventure",
+                publishedAt = "2021-03-02T22:58:59Z",
+                description = "Alvin has entered himself and Simon and Theodore in a hot-air balloon race around the world against the Chipettes to deliver diamonds for a group of diamond smugglers. The winners will collect a prize of \$100,000. Kids and adults will enjoy this film made with musical numbers by the Chipmunks and the Chipettes.",
+                content = "Alvin has entered himself and Simon and Theodore in a hot-air balloon race around the world against the Chipettes to deliver diamonds for a group of diamond smugglers. The winners will collect a prize of \$100,000. Kids and adults will enjoy this film made with musical numbers by the Chipmunks and the Chipettes.",
+                url = "https://image.tmdb.org/t/p/w500/o0d8qJL8anmGG14UfjBC7HHATJK.jpg",
+                urlToImage = "https://image.tmdb.org/t/p/w500/o0d8qJL8anmGG14UfjBC7HHATJK.jpg",
+            )
+            viewModel.insert(data)
+        }
     }
 }

@@ -5,8 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.ablanco.zoomy.Zoomy
+import com.ablanco.zoomy.ZoomyConfig
 import com.bumptech.glide.Glide
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.onuryahsi.newsapp.R
@@ -26,8 +29,8 @@ class FavoriteDetailActivity : AppCompatActivity() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceisExists: Bundle?) {
+        super.onCreate(savedInstanceisExists)
         binding = ActivityFavoriteDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -46,6 +49,15 @@ class FavoriteDetailActivity : AppCompatActivity() {
 
         fillTheView()
         getArticleIfExists()
+
+        val zoomy =
+            Zoomy.Builder(this).target(binding.favoriteDetailImage)
+                .enableImmersiveMode(true)
+                .animateZooming(false)
+        zoomy.register()
+
+        val zoomyConfig = ZoomyConfig()
+        Zoomy.setDefaultConfig(zoomyConfig)
     }
 
     private fun sendEvent(url: String) {
@@ -113,7 +125,7 @@ class FavoriteDetailActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         //return super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.options_menu, menu)
-        if (state) {
+        if (isExists) {
             updateOptionsMenu(menu)
         }
         return true
@@ -186,19 +198,21 @@ class FavoriteDetailActivity : AppCompatActivity() {
         )
 
         getArticleIfExists()
-        if (!state) {
+        if (!isExists) {
             viewModelNews.saveArticle(mArticle)
+            message("Saved..")
         }
     }
 
     private fun removeArticle() {
         getArticleIfExists()
-        if (state) {
+        if (isExists) {
             viewModelNews.removeArticle(article)
+            message("Removed..")
         }
     }
 
-    private var state = false
+    private var isExists = false
     lateinit var article: Article
     private fun getArticleIfExists() {
         val item = intent
@@ -207,12 +221,16 @@ class FavoriteDetailActivity : AppCompatActivity() {
             viewModelNews.searchByUrl(url)
             viewModelNews.resultArticle.observe(this, {
                 if (it != null) {
-                    state = true
+                    isExists = true
                     article = it
                 } else {
-                    state = false
+                    isExists = false
                 }
             })
         }
+    }
+
+    private fun message(msg: String) {
+        Toast.makeText(this, "" + msg, Toast.LENGTH_SHORT).show()
     }
 }

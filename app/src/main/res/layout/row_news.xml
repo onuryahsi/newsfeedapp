@@ -28,10 +28,11 @@
                     android:id="@+id/news_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/bree_serif"
+                    android:paddingEnd="4dp"
                     android:text="Lorem Ipsum Title"
                     android:textColor="#000"
-                    android:textSize="18sp"
-                    android:paddingEnd="4dp"/>
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/news_desc"
@@ -56,7 +57,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerInside"
                     android:id="@+id/news_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

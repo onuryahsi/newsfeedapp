@@ -92,6 +92,7 @@ class NewsViewModel @Inject constructor(
     var resultArticle = MutableLiveData<Article>()
 
     fun searchByUrl(url: String) {
+        resultArticle.postValue(null)
         viewModelScope.launch(Dispatchers.IO) {
             resultArticle.postValue(repository.findByUrl(url))
         }

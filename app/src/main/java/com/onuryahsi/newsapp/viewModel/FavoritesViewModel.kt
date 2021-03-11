@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.onuryahsi.newsapp.repository.NewsRepository
 import com.onuryahsi.newsapp.schema.Article
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,20 +19,20 @@ class FavoritesViewModel @Inject constructor(
 
     fun getAll() = repository.getAll()
 
-    suspend fun insert(article: Article) {
-        viewModelScope.launch {
+    fun insert(article: Article) {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.insert(article)
         }
     }
 
-    suspend fun update(article: Article) {
-        viewModelScope.launch {
+    fun update(article: Article) {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.update(article)
         }
     }
 
-    suspend fun delete(article: Article) {
-        viewModelScope.launch {
+    fun delete(article: Article) {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.delete(article)
         }
     }
