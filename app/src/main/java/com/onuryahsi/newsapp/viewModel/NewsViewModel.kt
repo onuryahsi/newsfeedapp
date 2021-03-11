@@ -1,14 +1,9 @@
 package com.onuryahsi.newsapp.viewModel
 
 import android.app.Application
-import android.content.Context
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.switchMap
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.google.gson.Gson
-import com.onuryahsi.newsapp.model.ArticleResponse
 import com.onuryahsi.newsapp.model.ErrorResponse
 import com.onuryahsi.newsapp.repository.NewsPagingRepository
 import com.onuryahsi.newsapp.repository.NewsRepository
@@ -17,10 +12,6 @@ import com.onuryahsi.newsapp.service.NewsRestAPI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,8 +20,6 @@ class NewsViewModel @Inject constructor(
     private val repository: NewsRepository
 ) :
     AndroidViewModel(application) {
-
-    var articleLiveData = MutableLiveData<ArticleResponse>()
 
 //    private var logging = HttpLoggingInterceptor().apply {
 //        setLevel(HttpLoggingInterceptor.Level.BASIC)
@@ -47,13 +36,13 @@ class NewsViewModel @Inject constructor(
 //        .create(NewsRestAPI::class.java)
 
     @Inject
-    lateinit var retrofitClient:NewsRestAPI
+    lateinit var retrofitClient: NewsRestAPI
 
     fun getArticles(q: String, page: Int) {
         viewModelScope.launch {
             val response = retrofitClient.getArticles(q, page, NewsRestAPI.api_key)
             if (response.isSuccessful) {
-                articleLiveData.postValue(response.body())
+                // articleLiveData.postValue(response.body())
             } else {
                 val errorResult =
                     Gson().fromJson(
@@ -91,11 +80,8 @@ class NewsViewModel @Inject constructor(
 
     var resultArticle = MutableLiveData<Article>()
 
-    fun searchByUrl(url: String) {
-        resultArticle.postValue(null)
-        viewModelScope.launch(Dispatchers.IO) {
-            resultArticle.postValue(repository.findByUrl(url))
-        }
+    fun searchByUrlLiveData(url: String): LiveData<Article> {
+        return repository.findByUrl(url)
     }
 
     fun removeArticle(article: Article) {

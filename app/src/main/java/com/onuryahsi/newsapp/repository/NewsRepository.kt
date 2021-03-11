@@ -33,7 +33,7 @@ class NewsRepository @Inject constructor() {
         articleDao.delete(article)
     }
 
-    fun findByUrl(url: String): Article {
+    fun findByUrl(url: String): LiveData<Article> {
         return articleDao.findByUrl(url)
     }
 

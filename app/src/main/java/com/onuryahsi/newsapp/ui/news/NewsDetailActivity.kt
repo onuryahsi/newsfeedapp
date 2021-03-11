@@ -187,8 +187,7 @@ class NewsDetailActivity : AppCompatActivity() {
         val item = intent
         val url = item.getStringExtra("article.url")
         if (url != null) {
-            viewModel.searchByUrl(url)
-            viewModel.resultArticle.observe(this, {
+            viewModel.searchByUrlLiveData(url).observe(this, {
                 if (it != null) {
                     isExists = true
                     article = it

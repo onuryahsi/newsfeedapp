@@ -218,8 +218,7 @@ class FavoriteDetailActivity : AppCompatActivity() {
         val item = intent
         val url = item.getStringExtra("article.url")
         if (url != null) {
-            viewModelNews.searchByUrl(url)
-            viewModelNews.resultArticle.observe(this, {
+            viewModelNews.searchByUrlLiveData(url).observe(this, {
                 if (it != null) {
                     isExists = true
                     article = it
